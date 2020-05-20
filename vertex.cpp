@@ -6,14 +6,35 @@ using namespace std;
 
 Vertex::Vertex() {
   //constructor
-  data = '\0';
+  name = '\0';
   
 }
 
-void Vertex::setData(char newD) {
-  data = newD;
+Vertex::~Vertex() {
+  //destructor
+  
 }
 
-char Vertex::getData() {
-  return data;
+void Vertex::setName(char newN) {
+  name = newN;
+}
+
+char Vertex::getName() {
+  return name;
+}
+
+void Vertex::setIndex(int newI) {
+  index = newI;
+}
+
+int Vertex::getIndex() {
+  return index;
+}
+
+void Vertex::setEdge(int from, int val) {
+  edges[from] = val;
+}
+
+int Vertex::getEdge(int from) {
+  return edges[from];
 }

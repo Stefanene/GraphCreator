@@ -5,11 +5,17 @@ using namespace std;
 
 class Vertex {
  public:
-  void setData(char);
-  char getData();
-  //list functions
+  Vertex();
+  ~Vertex();
+  void setName(char);
+  char getName();
+  void setIndex(int);
+  int getIndex();
+  void setEdge(int, int);
+  int getEdge(int);
  private:
-  char data;
-  //list data
+  char name;
+  int index;
+  int edges[20];
 };
 #endif
