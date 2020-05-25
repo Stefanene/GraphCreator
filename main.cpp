@@ -105,33 +105,28 @@ void REMOVEV(Vertex **list, int iC) {
     cout << endl << "No such vector found. Try again." << endl;
     return;
   }
-  //begin edge removal (zero)
   int i = v->getIndex();
-  int c = 0;
-  while (c < iC) {
-    //set its partners' edges to it to zero
-    (list[c])->setEdge(i, 0);
-    c++;
-  }
-  //delete this vertex
+  cout << "Removing vertex at index " << i << endl;
+  //delete the data in this vertex
   v->~Vertex();
   //remove it from list
   list[i] = NULL;
-  int rem = i;
-  //redo edge list
-  while (rem < iC) {
-    for (int ce = i; ce < 20; ce++) {
-      if (ce = 19) {
-	list[rem]->setEdge(ce, 0);
-	break;
+  //redo edge list of each vertex
+  for (int r = 0; r < iC && r != v->getIndex(); r++) {
+    Vertex* curr = list[r];
+    for (int ce = i; ce < iC; ce++) {
+      if (ce == 19) {
+	//case of final position edge
+	curr->setEdge(ce, 0);
+      } else {
+	int rep = ce++;
+	curr->setEdge(ce, curr->getEdge(rep));
       }
-      list[rem]->setEdge(ce, list[rem]->getEdge(ce+1));
     }
-    rem++;
   }
   //move all elements that follow down by 1 index
   while (i < iC) {
-    if (i == 19) {
+    if (i == iC-1) {
       //last case
       list[i] = NULL;
       break;
@@ -140,6 +135,7 @@ void REMOVEV(Vertex **list, int iC) {
     (list[i])->setIndex(i);
     i++;
   }
+  cout << endl << "Vertex removed." << endl;
 }
 
 void ADDE(Vertex **list, int iC) {
