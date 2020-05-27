@@ -106,24 +106,25 @@ void REMOVEV(Vertex **list, int iC) {
     return;
   }
   int i = v->getIndex();
+  v->~Vertex(); //remove data from vertex
   cout << "Removing vertex at index " << i << endl;
-  //delete the data in this vertex
-  v->~Vertex();
-  //remove it from list
-  list[i] = NULL;
   //redo edge list of each vertex
-  for (int r = 0; r < iC && r != v->getIndex(); r++) {
+  for (int r = 0; r < iC; r++) {
     Vertex* curr = list[r];
     for (int ce = i; ce < iC; ce++) {
-      if (ce == 19) {
+      if (ce == iC-1) {
 	//case of final position edge
 	curr->setEdge(ce, 0);
       } else {
-	int rep = ce++;
-	curr->setEdge(ce, curr->getEdge(rep));
+	//move all edges above removed index down by 1 index
+	int next = ce+1;
+	curr->setEdge(ce, curr->getEdge(next));
       }
     }
+    list[r] = curr;
   }
+  //remove vertex from list
+  list[i] = NULL;
   //move all elements that follow down by 1 index
   while (i < iC) {
     if (i == iC-1) {
@@ -136,6 +137,11 @@ void REMOVEV(Vertex **list, int iC) {
     i++;
   }
   cout << endl << "Vertex removed." << endl;
+  /*
+  cout << endl << "New vertex list:" << endl;
+  for (int d = 0; d < iC--; d++) {
+    cout << " " << list[d]->getName() << " idx=" << list[d]->getIndex() << endl;
+    }*/
 }
 
 void ADDE(Vertex **list, int iC) {
@@ -235,7 +241,6 @@ void PRINT(Vertex **list, int iC) {
   int count = 0;
   //construct adjacency matrix visual
   //first row and column
-  display[0][0] = ' ';
   while (count < iC) {
     display[0][count+1] = (list[count])->getName();
     display[count+1][0] = (list[count])->getName();
